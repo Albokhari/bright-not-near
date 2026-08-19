@@ -102,9 +102,3 @@ included; all labels are keyed to Kvasir-SEG image identifiers.
   note    = {AE-CAI | CARE | OR 2.0 | PRiSM workshop at MICCAI 2026}
 }
 ```
-
-## Acknowledgements
-
-J. Rittscher was funded by the National Institute for Health Research (NIHR) Oxford
-Biomedical Research Centre. The views expressed are those of the authors and not
-necessarily those of the National Health Service, the NIHR, or the Department of Health.
