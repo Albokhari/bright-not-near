@@ -1,0 +1,4 @@
+# evaluate.py and example_loader.py need only these two.
+# (code/ research scripts have their own heavier deps: torch, opencv-python, matplotlib.)
+numpy>=1.22
+Pillow>=9.0

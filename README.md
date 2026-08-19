@@ -2,11 +2,11 @@
 
 **Auditing and Mitigating Illumination Shortcuts in Ground-Truth-Free Endoscopic Depth**
 
-Rayan Albokhari, Chenyu Zhang, Rui Gao, Zexi Li, Jens Rittscher
-University of Oxford
+Rayan Albokhari, Chenyu Zhang, Rui Gao, Zexi Li, Jens Rittscher — University of Oxford
 
-Accepted at the joint AE-CAI | CARE | OR 2.0 | PRiSM workshop at MICCAI 2026, and under
-consideration for the Special Issue of Wiley IET Healthcare Technology Letters.
+AE-CAI | CARE | OR 2.0 | PRiSM workshop at MICCAI 2026, under consideration for the
+Special Issue of Wiley IET *Healthcare Technology Letters*.
+**Project page:** https://albokhari.github.io/bright-not-near/
 
 > On real endoscopic tissue there is no metric depth ground truth, so monocular depth is
 > ranked by correlation metrics against weak references. We show this is unsafe: a
@@ -17,32 +17,72 @@ consideration for the Special Issue of Wiley IET Healthcare Technology Letters.
 > real colonoscopy with a brightness-discordant protocol, and take a preliminary,
 > label-dependent step towards mitigation.
 
-**Project page:** https://albokhari.github.io/bright-not-near/
+## Quickstart: score your depth model in three steps
 
-## Release contents
+**1. Get the images** (not redistributed here; the benchmark ships labels only).
+Download [Kvasir-SEG](https://datasets.simula.no/kvasir-seg/) and note its `images/` path.
 
-| Directory | Contents |
+**2. Sanity-check your setup** by reproducing the paper's zero-parameter baseline:
+
+```bash
+pip install -r requirements.txt          # numpy, Pillow
+python evaluate.py --baseline brightness --images /path/to/Kvasir-SEG/images
+# expected: pairwise 0.873, ExactMatch 0.365, discordant 0.000
+```
+
+**3. Score your model.** Run it on the 307 benchmark images (filenames in
+`annotations/consensus_307_points_ranks.json`) and save one prediction map per image,
+named by filename stem (`cju...xyz.npy` or `.png`, any resolution):
+
+```bash
+python evaluate.py --pred-dir my_preds/ --larger-is farther --bootstrap 10000
+```
+
+Use `--larger-is farther` for metric-depth maps; the default assumes disparity
+(larger = nearer). **discordant** is the cue-controlled headline metric: it scores only
+the 391 pairs where brightness contradicts the consensus order, so it cannot be gamed by
+reading the light. For context, on it the brightness baseline scores 0.000, base DAV2
+0.711, EndoOmni 0.874, and our relight-consistency fine-tune 0.816 (5-fold).
+
+## Repository map
+
+| Path | Contents |
 |---|---|
-| `annotations/` | Point coordinates and ranks, all per-annotator rankings, consensus / non-consensus labels. Keyed to Kvasir-SEG image identifiers (see note below). |
-| `folds/` | Image-level fold definitions, plus the cluster-disjoint robustness folds. |
-| `code/` | The cue audit, the relighting operators, the evaluation protocol (pairwise / ExactMatch / brightness-discordant), and the fixed-geometry relighting experiment (Exp A). |
-| `heads/` | Trained DAV2 depth heads: ordinal fine-tune and relight-consistency variant, per fold. |
+| `evaluate.py` | Standalone benchmark scorer (the three protocol metrics + bootstrap CIs) |
+| `annotations/` | The benchmark: 307 images × 5 points with consensus ranks; per-annotator orders for all 400 candidates (annotators anonymised A1–A4); the 391-pair brightness-discordant split |
+| `folds/` | 5-fold and cluster-disjoint fold definitions |
+| `code/` | Research code by paper section: cue audit, relighting operators and Exp A, full evaluation protocol, fine-tuning, consensus pipeline (see `code/README.md`) |
+| `heads/` | Metadata + loading instructions for the fine-tuned DAV2 depth heads |
+| `code/example_loader.py` | Minimal join of annotations ↔ Kvasir-SEG images |
 
-**Kvasir-SEG images are not redistributed here.** The Kvasir-SEG terms allow research use
-but not redistribution, so every annotation is keyed to the original Kvasir-SEG image
-identifier. Download the images from the official Kvasir-SEG source and the loaders in
-`code/` will join them to the annotations.
+## Trained heads
 
-## Status
+The ten fine-tuned DPT heads (ordinal fine-tune and relight-consistency, 5 folds each,
+~124 MB per head) are attached to the
+[v1.0 release](https://github.com/Albokhari/bright-not-near/releases/tag/v1.0):
 
-Released: the 307-image consensus benchmark (points + ranks), all per-annotator rankings
-for the 400 candidates (annotators anonymised A1-A4), the 391-pair brightness-discordant
-split, the 5-fold and cluster-disjoint fold definitions, and the cue-audit / relighting /
-evaluation / fine-tuning code. The trained depth heads (10 checkpoints, ~124 MB each) are
-attached to the v1.0 GitHub Release as two tar.gz archives (see `heads/README.md`).
-Each directory has its own README documenting schemas. Start with `code/example_loader.py`.
+```bash
+wget https://github.com/Albokhari/bright-not-near/releases/download/v1.0/dav2_relightcons_heads.tar.gz
+tar xzf dav2_relightcons_heads.tar.gz
+```
 
-License: MIT for code; CC BY 4.0 for annotations, folds, and heads (see `LICENSE`).
+Load on top of the official [Depth Anything V2](https://github.com/DepthAnything/Depth-Anything-V2)
+ViT-L weights (the DINOv2 encoder stays frozen):
+
+```python
+from depth_anything_v2.dpt import DepthAnythingV2
+model = DepthAnythingV2(encoder="vitl", features=256, out_channels=[256, 512, 1024, 1024])
+model.load_state_dict(torch.load("depth_anything_v2_vitl.pth"))
+model.depth_head.load_state_dict(torch.load("dav2_relightcons/fold0_head_best.pt"))
+```
+
+Training recipes: `code/finetune/`.
+
+## Licence
+
+Code: MIT. Annotations, folds, and trained heads: CC BY 4.0. Kvasir-SEG images are
+governed by their own terms (research/education use, no redistribution) and are not
+included; all labels are keyed to Kvasir-SEG image identifiers.
 
 ## Citation
 

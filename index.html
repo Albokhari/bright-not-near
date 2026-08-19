@@ -101,8 +101,14 @@
 
 <section id="benchmark">
   <h2>Release</h2>
+  <p>Score your own model with the standalone evaluator (numpy + Pillow only):</p>
+  <pre>python evaluate.py --baseline brightness --images /path/to/Kvasir-SEG/images
+# expected: pairwise 0.873, ExactMatch 0.365, discordant 0.000
+python evaluate.py --pred-dir my_preds/ --larger-is farther</pre>
   <table>
     <tr><th>Component</th><th>Contents</th></tr>
+    <tr><td><code>evaluate.py</code></td><td>Standalone scorer: pairwise, ExactMatch, and the cue-controlled
+    brightness-discordant metric, with image-clustered bootstrap CIs.</td></tr>
     <tr><td><code>annotations/</code></td><td>Point coordinates and ranks, all per-annotator rankings, consensus and
     non-consensus labels, keyed to Kvasir-SEG image identifiers.</td></tr>
     <tr><td><code>folds/</code></td><td>Image-level fold definitions and the cluster-disjoint robustness folds.</td></tr>

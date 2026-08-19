@@ -1,0 +1,37 @@
+cff-version: 1.2.0
+message: "If you use this benchmark, code, or the trained heads, please cite the paper."
+title: "Bright ≠ Near: Auditing and Mitigating Illumination Shortcuts in Ground-Truth-Free Endoscopic Depth"
+authors:
+  - family-names: Albokhari
+    given-names: Rayan
+    affiliation: "University of Oxford"
+  - family-names: Zhang
+    given-names: Chenyu
+    affiliation: "University of Oxford"
+  - family-names: Gao
+    given-names: Rui
+    affiliation: "University of Oxford"
+  - family-names: Li
+    given-names: Zexi
+    affiliation: "University of Oxford"
+  - family-names: Rittscher
+    given-names: Jens
+    affiliation: "University of Oxford"
+year: 2026
+preferred-citation:
+  type: article
+  title: "Bright ≠ Near: Auditing and Mitigating Illumination Shortcuts in Ground-Truth-Free Endoscopic Depth"
+  authors:
+    - family-names: Albokhari
+      given-names: Rayan
+    - family-names: Zhang
+      given-names: Chenyu
+    - family-names: Gao
+      given-names: Rui
+    - family-names: Li
+      given-names: Zexi
+    - family-names: Rittscher
+      given-names: Jens
+  journal: "Healthcare Technology Letters"
+  year: 2026
+  notes: "AE-CAI | CARE | OR 2.0 | PRiSM workshop at MICCAI 2026"
