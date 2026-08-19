@@ -17,6 +17,8 @@ consideration for the Special Issue of Wiley IET Healthcare Technology Letters.
 > real colonoscopy with a brightness-discordant protocol, and take a preliminary,
 > label-dependent step towards mitigation.
 
+**Project page:** https://albokhari.github.io/bright-not-near/
+
 ## Release contents
 
 | Directory | Contents |
