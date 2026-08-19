@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.pt
+*.tar.gz
+my_preds/
+.DS_Store

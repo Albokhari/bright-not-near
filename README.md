@@ -17,7 +17,7 @@ Special Issue of Wiley IET *Healthcare Technology Letters*.
 > real colonoscopy with a brightness-discordant protocol, and take a preliminary,
 > label-dependent step towards mitigation.
 
-<p align="center"><img src="assets_shortcut.gif" width="720" alt="Relighting the same frame: geometry fixed, predicted depth collapses when the brightness-depth coupling is broken."></p>
+<p align="center"><img src="assets/shortcut.gif" width="720" alt="Relighting the same frame: geometry fixed, predicted depth collapses when the brightness-depth coupling is broken."></p>
 
 *The interventional probe in one clip: lighting changes that preserve the bright = near
 coupling leave DAV2's depth unchanged; breaking the coupling collapses the recovered lumen
@@ -52,14 +52,27 @@ reading the light. For context, on it the brightness baseline scores 0.000, base
 
 ## Repository map
 
-| Path | Contents |
-|---|---|
-| `evaluate.py` | Standalone benchmark scorer (the three protocol metrics + bootstrap CIs) |
-| `annotations/` | The benchmark: 307 images × 5 points with consensus ranks; per-annotator orders for all 400 candidates (annotators anonymised A1–A4); the 391-pair brightness-discordant split |
-| `folds/` | 5-fold and cluster-disjoint fold definitions |
-| `code/` | Research code by paper section: cue audit, relighting operators and Exp A, full evaluation protocol, fine-tuning, consensus pipeline (see `code/README.md`) |
-| `heads/` | Metadata + loading instructions for the fine-tuned DAV2 depth heads |
-| `code/example_loader.py` | Minimal join of annotations ↔ Kvasir-SEG images |
+```
+evaluate.py                 standalone benchmark scorer (start here)
+requirements.txt            numpy + Pillow (all evaluate.py needs)
+annotations/
+  consensus_307_points_ranks.json   the benchmark: 5 points + consensus ranks per image
+  per_annotator_rankings.json       all 400 candidates, every annotator's order (A1-A4)
+  discordant_pairs.csv              the 391-pair brightness-discordant split
+folds/                      5-fold + cluster-disjoint fold definitions
+code/                       research code by paper section (each dir has a script index)
+  example_loader.py           minimal join of annotations <-> Kvasir-SEG images
+  cue_audit/                  Section 3: the seven-cue audit + validity controls
+  relighting/                 Section 3: relight operators, reliance probe, Exp A
+  evaluation/                 Sections 3-4: the full statistical protocol
+  finetune/                   Section 5: head-only fine-tuning (ordinal, relight-consistency)
+  consensus_pipeline/         Section 4: annotation collection and consensus filtering
+heads/                      per-fold metrics + how to load the released checkpoints
+assets/                     project-page media
+index.html                  the project page (github.io)
+```
+
+Every `code/` subdirectory has a `README.md` with a one-line description of each script.
 
 ## Trained heads
 

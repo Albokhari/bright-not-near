@@ -9,7 +9,7 @@
 <meta property="og:description" content="A zero-parameter brightness baseline matches state-of-the-art endoscopic depth models on GT-free metrics. We audit, measure, and mitigate the illumination shortcut, and release an ordinal benchmark.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://albokhari.github.io/bright-not-near/">
-<meta property="og:image" content="https://albokhari.github.io/bright-not-near/assets_overview.png">
+<meta property="og:image" content="https://albokhari.github.io/bright-not-near/assets/overview.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2280%22 font-family=%22Georgia%22 fill=%22%230b5fa5%22%3E%26%238800;%3C/text%3E%3C/svg%3E">
 <style>
@@ -129,7 +129,7 @@
 </header>
 
 <figure>
-  <img src="assets_overview.png" alt="Overview: the brightness shortcut, the diagnosis by relighting, the ordinal benchmark, and the mitigation.">
+  <img src="assets/overview.png" alt="Overview: the brightness shortcut, the diagnosis by relighting, the ordinal benchmark, and the mitigation.">
   <figcaption><b>Overview.</b> An endoscope co-locates camera and light, so closer tissue is brighter and a zero-parameter
   &ldquo;bright&nbsp;=&nbsp;near&rdquo; baseline is not beaten by the best learned model on ground-truth-free metrics.
   We diagnose the confound with a multi-cue audit and an interventional relighting probe, measure models on a
@@ -178,7 +178,7 @@
 <section id="demo">
   <h2>The shortcut, animated</h2>
   <figure style="margin-top:6px">
-    <img src="assets_shortcut.gif" alt="Animation: relighting the same frame leaves the geometry fixed, yet the predicted depth collapses when the brightness-depth coupling is broken.">
+    <img src="assets/shortcut.gif" alt="Animation: relighting the same frame leaves the geometry fixed, yet the predicted depth collapses when the brightness-depth coupling is broken.">
     <figcaption>The interventional probe in one clip (C3VD, fixed geometry). Lighting changes that
     <i>preserve</i> the bright&nbsp;=&nbsp;near coupling leave DAV2's depth map essentially unchanged;
     <i>breaking</i> the coupling by decorrelating or inverting brightness degrades and finally collapses the
@@ -189,14 +189,14 @@
 <section id="results">
   <h2>Results at a glance</h2>
   <figure>
-    <img src="assets_reranking.png" alt="Leaderboard re-ranking under the brightness-discordant metric.">
+    <img src="assets/reranking.png" alt="Leaderboard re-ranking under the brightness-discordant metric.">
     <figcaption><b>The brightness-controlled metric re-orders the leaderboard.</b> The zero-parameter brightness
     baseline outranks most audited models on the naive metric; re-ranking on the brightness-discordant pairs drops
     the naive leader DAV2 most, while shading-robust endoscopy models rise. The right panel shows relighting reliance
     for the base model, the two mitigations, and EndoOmni.</figcaption>
   </figure>
   <figure>
-    <img src="assets_qualitative.png" alt="Qualitative before/after mitigation examples on real colonoscopy frames.">
+    <img src="assets/qualitative.png" alt="Qualitative before/after mitigation examples on real colonoscopy frames.">
     <figcaption><b>The mitigation on real cases.</b> Columns are the six largest per-frame gainers; rows show the
     input with consensus ranks, base DAV2, the ordinal fine-tune, the relight-consistency cure, and the EndoOmni
     reference. The base ranks by brightness on these frames; the cured head passes every brightness-discordant
@@ -207,8 +207,8 @@
 <section>
   <h2>Try the mitigation: drag to compare</h2>
   <div class="cmp" id="cmp">
-    <img src="assets_slider_after.jpg" alt="Depth prediction after the relight-consistency fine-tune.">
-    <div class="top"><img src="assets_slider_before.jpg" alt="Depth prediction of base DAV2."></div>
+    <img src="assets/slider_after.jpg" alt="Depth prediction after the relight-consistency fine-tune.">
+    <div class="top"><img src="assets/slider_before.jpg" alt="Depth prediction of base DAV2."></div>
     <div class="bar"></div>
     <span class="tag tagL">base DAV2</span>
     <span class="tag tagR">+ relight-consistency</span>
@@ -217,7 +217,7 @@
   <figcaption style="font-size:.9rem;color:var(--muted);margin-top:10px;text-align:center">
   A real colonoscopy frame (the model's own inference; turbo colormap, warm&nbsp;=&nbsp;near). The base model
   paints the brightly lit foreground mucosa as near everywhere; the fine-tuned head recovers the ordering on the
-  brightness-discordant points. Input frame: <a href="assets_slider_input.jpg">here</a>.</figcaption>
+  brightness-discordant points. Input frame: <a href="assets/slider_input.jpg">here</a>.</figcaption>
 
   <h2 style="margin-top:34px">Headline numbers</h2>
   <div class="tablewrap">
