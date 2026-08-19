@@ -35,7 +35,14 @@ identifier. Download the images from the official Kvasir-SEG source and the load
 
 ## Status
 
-This repository accompanies the paper and is being populated for the camera-ready release.
+Released: the 307-image consensus benchmark (points + ranks), all per-annotator rankings
+for the 400 candidates (annotators anonymised A1-A4), the 391-pair brightness-discordant
+split, the 5-fold and cluster-disjoint fold definitions, and the cue-audit / relighting /
+evaluation / fine-tuning code. The trained depth heads (10 checkpoints, ~124 MB each) are
+attached to the v1.0 GitHub Release as two tar.gz archives (see `heads/README.md`).
+Each directory has its own README documenting schemas. Start with `code/example_loader.py`.
+
+License: MIT for code; CC BY 4.0 for annotations, folds, and heads (see `LICENSE`).
 
 ## Citation
 

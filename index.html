@@ -111,9 +111,11 @@
     <tr><td><code>heads/</code></td><td>Trained DAV2 depth heads: ordinal fine-tune and relight-consistency variant, per fold.</td></tr>
   </table>
   <p class="note" style="margin-top:12px">Kvasir-SEG images are not redistributed; the dataset's terms allow research
-  use but not redistribution. Annotations are keyed to the original image identifiers, and the loaders join them to
-  images downloaded from the official Kvasir-SEG source. The repository is being populated for the camera-ready
-  release.</p>
+  use but not redistribution. Annotations are keyed to the original image identifiers, and
+  <code>code/example_loader.py</code> joins them to images downloaded from the official Kvasir-SEG source.
+  All components above are in the repository (annotators anonymised A1&ndash;A4); the ten trained heads
+  (~124&nbsp;MB each) are attached to the v1.0 release as two archives. Code is MIT-licensed; annotations,
+  folds, and heads are CC&nbsp;BY&nbsp;4.0.</p>
 </section>
 
 <section id="citation">
