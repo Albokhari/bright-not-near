@@ -99,6 +99,35 @@
   </div>
 </section>
 
+<section>
+  <h2>The shortcut, animated</h2>
+  <figure style="margin-top:6px">
+    <img src="assets_shortcut.gif" alt="Animation: relighting the same frame leaves the geometry fixed, yet the predicted depth collapses when the brightness-depth coupling is broken.">
+    <figcaption>The interventional probe in one clip (C3VD, fixed geometry). Lighting changes that
+    <i>preserve</i> the bright&nbsp;=&nbsp;near coupling leave DAV2's depth map essentially unchanged;
+    <i>breaking</i> the coupling by decorrelating or inverting brightness degrades and finally collapses the
+    recovered lumen, while the metric ground truth on the right never moves. The model is reading the light.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <h2>Results at a glance</h2>
+  <figure>
+    <img src="assets_reranking.png" alt="Leaderboard re-ranking under the brightness-discordant metric.">
+    <figcaption><b>The brightness-controlled metric re-orders the leaderboard.</b> The zero-parameter brightness
+    baseline outranks most audited models on the naive metric; re-ranking on the brightness-discordant pairs drops
+    the naive leader DAV2 most, while shading-robust endoscopy models rise. The right panel shows relighting reliance
+    for the base model, the two mitigations, and EndoOmni.</figcaption>
+  </figure>
+  <figure>
+    <img src="assets_qualitative.png" alt="Qualitative before/after mitigation examples on real colonoscopy frames.">
+    <figcaption><b>The mitigation on real cases.</b> Columns are the six largest per-frame gainers; rows show the
+    input with consensus ranks, base DAV2, the ordinal fine-tune, the relight-consistency cure, and the EndoOmni
+    reference. The base ranks by brightness on these frames; the cured head passes every brightness-discordant
+    pair.</figcaption>
+  </figure>
+</section>
+
 <section id="benchmark">
   <h2>Release</h2>
   <p>Score your own model with the standalone evaluator (numpy + Pillow only):</p>

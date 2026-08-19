@@ -17,6 +17,12 @@ Special Issue of Wiley IET *Healthcare Technology Letters*.
 > real colonoscopy with a brightness-discordant protocol, and take a preliminary,
 > label-dependent step towards mitigation.
 
+<p align="center"><img src="assets_shortcut.gif" width="720" alt="Relighting the same frame: geometry fixed, predicted depth collapses when the brightness-depth coupling is broken."></p>
+
+*The interventional probe in one clip: lighting changes that preserve the bright = near
+coupling leave DAV2's depth unchanged; breaking the coupling collapses the recovered lumen
+while the metric ground truth never moves.*
+
 ## Quickstart: score your depth model in three steps
 
 **1. Get the images** (not redistributed here; the benchmark ships labels only).
