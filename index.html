@@ -71,6 +71,20 @@
             pointer-events:none;}
   .cmp .tagL{left:8px;} .cmp .tagR{right:8px;}
   html{scroll-behavior:smooth;}
+  nav{position:sticky; top:0; z-index:5; background:var(--bg); border-bottom:1px solid var(--line);
+      font-family:Helvetica,Arial,sans-serif; font-size:.85rem;}
+  nav .row{max-width:860px; margin:0 auto; padding:9px 20px; display:flex; gap:16px; flex-wrap:wrap;}
+  nav a{color:var(--muted); text-decoration:none;}
+  nav a:hover{color:var(--accent);}
+  nav .brand{color:var(--ink); font-weight:bold;}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-top:6px;}
+  .card{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:13px 15px;}
+  .card b{display:block; margin-bottom:5px; color:var(--accent); font-family:Helvetica,Arial,sans-serif;
+          font-size:.8rem; letter-spacing:.4px; text-transform:uppercase;}
+  .card p{font-size:.93rem; margin:0;}
+  .copybtn{float:right; font:12px Helvetica,Arial,sans-serif; padding:4px 12px; border-radius:12px;
+           border:1px solid var(--line); background:var(--bg); color:var(--muted); cursor:pointer;}
+  .copybtn:hover{color:var(--accent); border-color:var(--accent);}
   @media (prefers-color-scheme: dark){
     :root{--ink:#e8ecf0; --muted:#9aa6b2; --accent:#5aa8e0; --bg:#14181c;
           --panel:#1d2329; --line:#333b44;}
@@ -82,7 +96,16 @@
 </style>
 </head>
 <body>
-<div class="wrap">
+<nav><div class="row">
+  <a class="brand" href="#top">Bright &ne; Near</a>
+  <a href="#findings">Findings</a>
+  <a href="#demo">Demo</a>
+  <a href="#results">Results</a>
+  <a href="#benchmark">Release</a>
+  <a href="#citation">Cite</a>
+  <a href="https://github.com/Albokhari/bright-not-near">GitHub</a>
+</div></nav>
+<div class="wrap" id="top">
 
 <header>
   <h1>Bright <span class="neq">&ne;</span> Near</h1>
@@ -131,7 +154,28 @@
   </div>
 </section>
 
-<section>
+<section id="findings">
+  <h2>Five findings</h2>
+  <div class="cards">
+    <div class="card"><b>1 &middot; The floor is the ceiling</b>
+      <p>A zero-parameter &ldquo;rank points by brightness&rdquo; baseline reaches 0.873 pairwise accuracy on real
+      colonoscopy. No learned model among 15 significantly beats it (best: 0.879).</p></div>
+    <div class="card"><b>2 &middot; Models use the light</b>
+      <p>Under a geometry-preserving relighting operator, every audited model's ranking follows the light
+      (p<sub>Holm</sub>&lt;0.001); matched decorrelated controls barely move it.</p></div>
+    <div class="card"><b>3 &middot; Shortcut, not a valid cue</b>
+      <p>On phantom metric depth, decorrelating brightness from depth sends the baseline towards chance
+      (0.778&rarr;0.669) and inverting it below chance (0.421), while learned models hold (&ge;0.841).</p></div>
+    <div class="card"><b>4 &middot; The reliance costs geometry</b>
+      <p>Breaking the coupling at fixed geometry degrades dense metric error in every model, and a model's
+      relight sensitivity predicts its degradation (Spearman 0.96).</p></div>
+    <div class="card"><b>5 &middot; Control it, then mitigate it</b>
+      <p>The brightness-discordant protocol re-orders the leaderboard; a labelled ordinal fine-tune restores
+      discordant accuracy 0.712&rarr;0.810, while label-free de-biasing fails.</p></div>
+  </div>
+</section>
+
+<section id="demo">
   <h2>The shortcut, animated</h2>
   <figure style="margin-top:6px">
     <img src="assets_shortcut.gif" alt="Animation: relighting the same frame leaves the geometry fixed, yet the predicted depth collapses when the brightness-depth coupling is broken.">
@@ -142,7 +186,7 @@
   </figure>
 </section>
 
-<section>
+<section id="results">
   <h2>Results at a glance</h2>
   <figure>
     <img src="assets_reranking.png" alt="Leaderboard re-ranking under the brightness-discordant metric.">
@@ -198,6 +242,10 @@
   <pre>python evaluate.py --baseline brightness --images /path/to/Kvasir-SEG/images
 # expected: pairwise 0.873, ExactMatch 0.365, discordant 0.000
 python evaluate.py --pred-dir my_preds/ --larger-is farther</pre>
+  <p class="note">Beat the numbers above? Open a
+  <a href="https://github.com/Albokhari/bright-not-near/issues">GitHub issue</a> titled
+  &ldquo;Score: &lt;your model&gt;&rdquo; with the <code>evaluate.py --bootstrap 10000 --json-out</code> output
+  and a pointer to your method, and we will list it here.</p>
   <table>
     <tr><th>Component</th><th>Contents</th></tr>
     <tr><td><code>evaluate.py</code></td><td>Standalone scorer: pairwise, ExactMatch, and the cue-controlled
@@ -218,8 +266,8 @@ python evaluate.py --pred-dir my_preds/ --larger-is farther</pre>
 </section>
 
 <section id="citation">
-  <h2>Citation</h2>
-<pre>@article{albokhari2026brightnotnear,
+  <h2>Citation <button class="copybtn" onclick="copyBib(this)">copy</button></h2>
+<pre id="bib">@article{albokhari2026brightnotnear,
   title   = {Bright $\neq$ Near: Auditing and Mitigating Illumination Shortcuts in
              Ground-Truth-Free Endoscopic Depth},
   author  = {Albokhari, Rayan and Zhang, Chenyu and Gao, Rui and Li, Zexi and Rittscher, Jens},
@@ -242,6 +290,11 @@ python evaluate.py --pred-dir my_preds/ --larger-is farther</pre>
   r.addEventListener("input",function(){ set(this.value); });
   set(50);
 })();
+function copyBib(btn){
+  navigator.clipboard.writeText(document.getElementById("bib").textContent).then(function(){
+    btn.textContent="copied"; setTimeout(function(){btn.textContent="copy";},1500);
+  });
+}
 </script>
 </body>
 </html>
