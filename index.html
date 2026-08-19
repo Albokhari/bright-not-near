@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bright &ne; Near</title>
+<meta name="description" content="Bright ≠ Near: Auditing and Mitigating Illumination Shortcuts in Ground-Truth-Free Endoscopic Depth. AE-CAI | CARE | OR 2.0 | PRiSM workshop at MICCAI 2026.">
+<style>
+  :root{
+    --ink:#1d232a; --muted:#5a6572; --accent:#0b5fa5; --bg:#ffffff; --panel:#f5f7f9; --line:#dfe4e9;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:Georgia,'Times New Roman',serif; color:var(--ink); background:var(--bg); line-height:1.55;}
+  .wrap{max-width:860px; margin:0 auto; padding:0 20px;}
+  header{padding:56px 0 28px; text-align:center;}
+  h1{font-size:2.1rem; font-weight:normal; letter-spacing:.2px;}
+  h1 .neq{color:var(--accent);}
+  .subtitle{font-size:1.15rem; color:var(--muted); margin-top:10px;}
+  .authors{margin-top:20px; font-size:1.02rem;}
+  .authors span{white-space:nowrap;}
+  .affil{color:var(--muted); font-size:.95rem; margin-top:6px;}
+  .venue{margin-top:16px; font-size:.95rem;}
+  .venue b{color:var(--accent);}
+  .btns{margin-top:22px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+        font-family:Helvetica,Arial,sans-serif;}
+  .btn{display:inline-block; padding:8px 18px; border-radius:20px; border:1px solid var(--ink);
+       color:var(--ink); text-decoration:none; font-size:.9rem;}
+  .btn:hover{background:var(--ink); color:#fff;}
+  .btn.soon{border-color:var(--line); color:var(--muted); pointer-events:none;}
+  figure{margin:34px 0 8px;}
+  figure img{width:100%; height:auto; border:1px solid var(--line); border-radius:6px;}
+  figcaption{font-size:.9rem; color:var(--muted); margin-top:10px;}
+  section{margin:38px 0;}
+  h2{font-size:1.25rem; font-weight:normal; border-bottom:1px solid var(--line);
+     padding-bottom:6px; margin-bottom:14px;}
+  p+p{margin-top:12px;}
+  .tldr{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:16px 18px;}
+  ul{padding-left:22px;}
+  li{margin:7px 0;}
+  table{width:100%; border-collapse:collapse; font-size:.97rem;}
+  td,th{padding:8px 10px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top;}
+  th{font-weight:bold; color:var(--muted); font-size:.85rem; text-transform:uppercase; letter-spacing:.5px;}
+  code, pre{font-family:Menlo,Consolas,monospace; font-size:.85rem;}
+  pre{background:var(--panel); border:1px solid var(--line); border-radius:6px;
+      padding:14px 16px; overflow-x:auto; line-height:1.45;}
+  .note{font-size:.93rem; color:var(--muted);}
+  footer{border-top:1px solid var(--line); margin-top:48px; padding:22px 0 40px;
+         font-size:.9rem; color:var(--muted); text-align:center;}
+  a{color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Bright <span class="neq">&ne;</span> Near</h1>
+  <div class="subtitle">Auditing and Mitigating Illumination Shortcuts in Ground-Truth-Free Endoscopic Depth</div>
+  <div class="authors">
+    <span>Rayan Albokhari<sup>1</sup></span> &middot;
+    <span>Chenyu Zhang<sup>1</sup></span> &middot;
+    <span>Rui Gao<sup>1</sup></span> &middot;
+    <span>Zexi Li<sup>2</sup></span> &middot;
+    <span>Jens Rittscher<sup>1</sup></span>
+  </div>
+  <div class="affil"><sup>1</sup>Department of Engineering Science &middot; <sup>2</sup>Nuffield Department of Surgical Sciences<br>University of Oxford</div>
+  <div class="venue"><b>AE-CAI | CARE | OR 2.0 | PRiSM</b> workshop at <b>MICCAI 2026</b><br>
+  under consideration for the Special Issue of Wiley IET <i>Healthcare Technology Letters</i></div>
+  <div class="btns">
+    <a class="btn soon" href="#">Paper (soon)</a>
+    <a class="btn" href="https://github.com/Albokhari/bright-not-near">Code &amp; Data</a>
+    <a class="btn" href="#benchmark">Benchmark</a>
+    <a class="btn" href="#citation">BibTeX</a>
+  </div>
+</header>
+
+<figure>
+  <img src="assets_overview.png" alt="Overview: the brightness shortcut, the diagnosis by relighting, the ordinal benchmark, and the mitigation.">
+  <figcaption><b>Overview.</b> An endoscope co-locates camera and light, so closer tissue is brighter and a zero-parameter
+  &ldquo;bright&nbsp;=&nbsp;near&rdquo; baseline is not beaten by the best learned model on ground-truth-free metrics.
+  We diagnose the confound with a multi-cue audit and an interventional relighting probe, measure models on a
+  human-consensus ordinal benchmark with a brightness-discordant split, and mitigate with a labelled ordinal fine-tune
+  plus a relight-consistency term.</figcaption>
+</figure>
+
+<section>
+  <h2>Summary</h2>
+  <div class="tldr">
+    <p>On real endoscopic tissue there is no metric depth ground truth, so monocular depth models are ranked by
+    correlation metrics against weak references. We show this is unsafe: because the camera and the light source sit
+    together on the scope, closer tissue is brighter, and a <i>zero-parameter</i> brightness baseline scores like a
+    state-of-the-art model. The evaluation cannot tell illumination-invariant geometry from illumination-driven
+    guessing.</p>
+    <p>We audit seven candidate cues and find brightness dominant; an interventional relighting probe shows the
+    reliance is causal in the sense that predictions follow the light at fixed geometry; and on phantom metric depth,
+    breaking the brightness&ndash;depth coupling sends the baseline towards chance while learned models hold. We release
+    a 307-image, 4-annotator human-consensus ordinal benchmark on real colonoscopy whose brightness-discordant protocol
+    re-orders the leaderboard, and we show that a labelled ordinal fine-tune restores brightness-discordant accuracy
+    (0.71&nbsp;&rarr;&nbsp;0.81) while label-free de-biasing fails.</p>
+  </div>
+</section>
+
+<section id="benchmark">
+  <h2>Release</h2>
+  <table>
+    <tr><th>Component</th><th>Contents</th></tr>
+    <tr><td><code>annotations/</code></td><td>Point coordinates and ranks, all per-annotator rankings, consensus and
+    non-consensus labels, keyed to Kvasir-SEG image identifiers.</td></tr>
+    <tr><td><code>folds/</code></td><td>Image-level fold definitions and the cluster-disjoint robustness folds.</td></tr>
+    <tr><td><code>code/</code></td><td>The cue audit, the relighting operators, the evaluation protocol
+    (pairwise, ExactMatch, brightness-discordant), and the fixed-geometry relighting experiment.</td></tr>
+    <tr><td><code>heads/</code></td><td>Trained DAV2 depth heads: ordinal fine-tune and relight-consistency variant, per fold.</td></tr>
+  </table>
+  <p class="note" style="margin-top:12px">Kvasir-SEG images are not redistributed; the dataset's terms allow research
+  use but not redistribution. Annotations are keyed to the original image identifiers, and the loaders join them to
+  images downloaded from the official Kvasir-SEG source. The repository is being populated for the camera-ready
+  release.</p>
+</section>
+
+<section id="citation">
+  <h2>Citation</h2>
+<pre>@article{albokhari2026brightnotnear,
+  title   = {Bright $\neq$ Near: Auditing and Mitigating Illumination Shortcuts in
+             Ground-Truth-Free Endoscopic Depth},
+  author  = {Albokhari, Rayan and Zhang, Chenyu and Gao, Rui and Li, Zexi and Rittscher, Jens},
+  journal = {Healthcare Technology Letters},
+  year    = {2026},
+  note    = {AE-CAI | CARE | OR 2.0 | PRiSM workshop at MICCAI 2026}
+}</pre>
+</section>
+
+<section>
+  <h2>Acknowledgements</h2>
+  <p class="note">J. Rittscher was funded by the National Institute for Health Research (NIHR) Oxford Biomedical
+  Research Centre. The views expressed are those of the authors and not necessarily those of the National Health
+  Service, the NIHR, or the Department of Health.</p>
+</section>
+
+<footer>
+  University of Oxford &middot; 2026 &middot; <a href="https://github.com/Albokhari/bright-not-near">github.com/Albokhari/bright-not-near</a>
+</footer>
+
+</div>
+</body>
+</html>
