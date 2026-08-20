@@ -28,3 +28,14 @@ consensus. Derivable deterministically from `consensus_307_points_ranks.json` pl
 Kvasir-SEG images; this file is provided so the split is fixed without reprocessing.
 
 See `../code/example_loader.py` for a worked join of images and annotations.
+
+## Spatial distribution of the points
+
+![Per-rank spatial density](rank_spatial_distribution.png)
+
+Spatial density of the annotated points by consensus rank (coordinates normalised to the
+frame; dashed line = mean height per rank). Nearer ranks sit lower in the frame on average
+(mean normalised height 0.59 for rank 1 vs 0.46-0.47 for ranks 4-5), reflecting how
+colonoscopic framing composes the scene, but the distributions overlap heavily: vertical
+position is a weak cue (0.577 pairwise accuracy against the consensus) compared with
+brightness (0.873).
