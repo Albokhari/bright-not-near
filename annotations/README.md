@@ -35,7 +35,7 @@ See `../code/example_loader.py` for a worked join of images and annotations.
 
 Spatial density of the annotated points by consensus rank (coordinates normalised to the
 frame; dashed line = mean height per rank). Nearer ranks sit lower in the frame on average
-(mean normalised height 0.59 for rank 1 vs 0.46-0.47 for ranks 4-5), reflecting how
+(mean height above the frame bottom 0.41 for rank 1 vs 0.53-0.54 for ranks 4-5), reflecting how
 colonoscopic framing composes the scene, but the distributions overlap heavily: vertical
 position is a weak cue (0.577 pairwise accuracy against the consensus) compared with
 brightness (0.873).
